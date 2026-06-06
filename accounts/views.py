@@ -4,6 +4,8 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from .models import UserSerializer
 from rest_framework.permissions import AllowAny 
+from django.contrib.auth import authenticate
+
 # Create your views here.
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -14,3 +16,14 @@ def register(request):
         token, created = Token.objects.get_or_create(user=serializer.instance)
         return Response({"messages": "User registered successfully", 'token': token.key}, status=201)
     return Response(serializer.errors, status=400)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def login(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({"messages": "Login successful", 'token': token.key}, status=200)
+    return Response({"messages": "Invalid credentials"}, status=400)
