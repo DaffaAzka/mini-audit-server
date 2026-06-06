@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser 
 from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import User
-from .models import UserGroupAssignmentSerializer, UserSerializer
+from .serializer import UserGroupAssignmentSerializer, UserSerializer
 
 # Create your views here.
 @api_view(['GET'])
