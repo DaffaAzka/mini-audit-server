@@ -13,7 +13,7 @@ from django.contrib.auth.models import Group
 def list(request):
     groups = Group.objects.all()
     serializer = GroupSerializer(groups, many=True)
-    return Response(serializer.data, status=200)
+    return Response({"message": "Groups retrieved successfully", "data": serializer.data}, status=200)
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
@@ -22,8 +22,8 @@ def create(request):
     serializer = GroupSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=201)
-    return Response(serializer.errors, status=400)
+        return Response({"message": "Group created successfully", "data": serializer.data}, status=201)
+    return Response({"message": "Failed to create group", "errors": serializer.errors}, status=400)
 
 @api_view(['GET', 'DELETE', 'PUT'])
 @authentication_classes([TokenAuthentication])
@@ -32,19 +32,19 @@ def detail(request, pk):
     try:
         group = Group.objects.get(pk=pk)
     except Group.DoesNotExist:
-        return Response({"messages": "Group not found"}, status=404)
+        return Response({"message": "Group not found"}, status=404)
     
     if request.method == 'GET':
         serializer = GroupSerializer(group)
-        return Response(serializer.data, status=200)
+        return Response({"message": "Group retrieved successfully", "data": serializer.data}, status=200)
     
     elif request.method == 'DELETE':
         group.delete()
-        return Response({"messages": "Group deleted successfully"}, status=204)
+        return Response({"message": "Group deleted successfully"}, status=204)
     
     elif request.method == 'PUT':
         serializer = GroupSerializer(group, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=200)
-        return Response(serializer.errors, status=400)
+            return Response({"message": "Group updated successfully", "data": serializer.data}, status=200)
+        return Response({"message": "Failed to update group", "errors": serializer.errors}, status=400)

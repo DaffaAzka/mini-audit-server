@@ -14,8 +14,8 @@ def register(request):
     if serializer.is_valid():
         serializer.save()
         token, created = Token.objects.get_or_create(user=serializer.instance)
-        return Response({"messages": "User registered successfully", 'token': token.key}, status=201)
-    return Response(serializer.errors, status=400)
+        return Response({"message": "User registered successfully", 'token': token.key}, status=201)
+    return Response({"message": "Failed to register user", "errors": serializer.errors}, status=400)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -25,5 +25,5 @@ def login(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         token, created = Token.objects.get_or_create(user=user)
-        return Response({"messages": "Login successful", 'token': token.key}, status=200)
-    return Response({"messages": "Invalid credentials"}, status=400)
+        return Response({"message": "Login successful", 'token': token.key}, status=200)
+    return Response({"message": "Invalid credentials"}, status=400)
