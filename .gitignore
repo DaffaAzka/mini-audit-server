@@ -1,0 +1,30 @@
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database lokal (SQLite)
+db.sqlite3
+db.sqlite3-journal
+
+# Environments (Jika kamu pakai virtual environment seperti venv/env)
+.venv/
+venv/
+env/
+ENV/
+
+# Django media & static lokal (opsional, sesuaikan nanti jika ada upload file)
+/media/
+/staticfiles/
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environment variables (Sangat penting jika nanti pakai python-dotenv)
+.env
