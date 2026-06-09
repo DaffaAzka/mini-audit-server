@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'units',
     'comments',
     'audit_periods',
+    'audit_teams'
 ]
 
 MIDDLEWARE = [
